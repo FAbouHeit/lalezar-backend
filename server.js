@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connect from './config/Config.js';
 import userRouter from "./routes/UserRoutes.js";
+import categoryRouter from "./routes/CategoryRoutes.js";
+import colorRouter from "./routes/ColorsRoutes.js";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 6666;
@@ -19,6 +22,8 @@ const corsOption = {
 
 app.use(cors(corsOption));
 app.use('/user', userRouter)
+app.use('/categories',categoryRouter)
+app.use('/colors',colorRouter)
 
 app.listen(PORT, ()=>{
     connect();
