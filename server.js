@@ -2,12 +2,14 @@ import express from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connect from './config/Config.js';
+import userRouter from "./routes/UserRoutes.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 6666;
 const app = express();
 app.use(express.json());
-
+app.use(express.static('public'))
+app.use('/images', express.static('images'))
 
 const corsOption = {
     origin: process.env.FRONT_END_PATH,
@@ -16,6 +18,7 @@ const corsOption = {
 }
 
 app.use(cors(corsOption));
+app.use('/user', userRouter)
 
 app.listen(PORT, ()=>{
     connect();
