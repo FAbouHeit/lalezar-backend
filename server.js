@@ -5,6 +5,7 @@ import connect from './config/Config.js';
 import userRouter from "./routes/UserRoutes.js";
 import categoryRouter from "./routes/CategoryRoutes.js";
 import colorRouter from "./routes/ColorsRoutes.js";
+import productRouter from "./routes/ProductRoutes.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(cors(corsOption));
 app.use('/user', userRouter)
 app.use('/categories',categoryRouter)
 app.use('/colors',colorRouter)
+app.use('/products',productRouter)
 
 app.listen(PORT, ()=>{
     connect();
