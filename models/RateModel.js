@@ -6,12 +6,14 @@ const RateSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        required: true,
+        ref: 'User',
     },
-    product: {
+    productId: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true,
         ref: 'product',
     },
  },

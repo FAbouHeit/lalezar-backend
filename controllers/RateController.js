@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // Get All Rates
 export const getRates = async (req, res) => {
   try {
-    const rates = await Rate.find().populate('users');
+    const rates = await Rate.find().populate('user');
     return res.status(200).json(rates);
   } catch (error) {
     console.error(error);
@@ -14,13 +14,13 @@ export const getRates = async (req, res) => {
 
 // Create a new rate
 export const addRate = async (req, res) => {
-  const { rate, user, product } = req.body;
+  const { rate, userId ,productId } = req.body;
 
   try {
     const newRate = await Rate.create({
       rate,
-      user,
-      product,
+      userId,
+      productId,
     });
 
     res.status(200).json(newRate);
@@ -33,7 +33,7 @@ export const addRate = async (req, res) => {
 // Update a rate
 export const editRate = async (req, res) => {
   const id = req.body.id;
-  const { rate, user, product } = req.body;
+  const { rate, user } = req.body;
 
   try {
     if (!mongoose.isValidObjectId(id)) {
@@ -49,7 +49,7 @@ export const editRate = async (req, res) => {
     const updatedRateData = {
       rate,
       user,
-      product,
+      // product,
     };
 
     const updatedRate = await Rate.findByIdAndUpdate(id, updatedRateData, {
