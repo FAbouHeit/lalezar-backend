@@ -7,6 +7,8 @@ import categoryRouter from "./routes/CategoryRoutes.js";
 import colorRouter from "./routes/ColorsRoutes.js";
 import productRouter from "./routes/ProductRoutes.js";
 import rateRouter from "./routes/RatesRoutes.js";
+import clientRouter from "./routes/ClientRoutes.js";
+import orderRouter from "./routes/OrderRoutes.js";
 
 dotenv.config();
 
@@ -28,6 +30,8 @@ app.use('/categories',categoryRouter)
 app.use('/colors',colorRouter)
 app.use('/products',productRouter)
 app.use('/rate',rateRouter)
+app.use('/client',clientRouter)
+app.use('/order', orderRouter)
 
 app.listen(PORT, ()=>{
     connect();
