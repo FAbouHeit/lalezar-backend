@@ -8,10 +8,11 @@ import {
 } from "../controllers/ProductController.js";
 import express from "express";
 import upload from "../middleware/Multer.js";
+import { paginate } from "../middleware/Pagination.js";
 
 const productRouter = express.Router();
 
-productRouter.get("/", getAllProducts);
+productRouter.get("/", paginate , getAllProducts);
 productRouter.get("/product", getProduct);
 productRouter.get("/byCategory" , getProductByCategory)
 productRouter.post("/create", upload.single("image"), createProduct);

@@ -5,7 +5,11 @@ import fs from "fs";
 // Get All Products
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+
+    const offset = req.offset || 0;
+    const limit = req.limit || 10;
+
+    const products = await Product.find().limit(limit).skip(offset).exec();
     return res.status(200).json(products);
   } catch (error) {
     console.error(error);
@@ -54,7 +58,7 @@ export const getProductByCategory = async (req, res) => {
 
 // Create a product
 export const createProduct = async (req, res) => {
-  const { name, description, price, stock, note, display, color, category } =
+  const { name , name_AR , description , description_AR , price, stock, note , note_AR , display, color, category } =
     req.body;
 
   if (!req.file) {
@@ -65,10 +69,13 @@ export const createProduct = async (req, res) => {
   try {
     const newProduct = new Product({
       name,
+      name_AR ,
       description,
+      description_AR ,
       price,
       stock,
       note,
+      note_AR ,
       display,
       color,
       category,
@@ -102,10 +109,13 @@ export const updateProduct = async (req, res) => {
   try {
     const updatedData = {
       name: req.body.name,
+      name_AR : req.body.name_AR,
       description: req.body.description,
+      description_AR : req.body.description_AR,
       price: req.body.price,
       stock: req.body.stock,
       note: req.body.note,
+      note_AR : req.body.note_AR,
       display: req.body.display,
       category: req.body.category,
       color: req.body.color,
