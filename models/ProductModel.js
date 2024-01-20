@@ -34,9 +34,19 @@ const productSchema = new Schema(
       },
       required: true,
     },
+    quantity:{
+      type:Number,
+      required:true
+    },
     image: {
       type: String,
       required: true,
+    },
+    ingredients:{
+      type:String
+    },
+    ingredients_AR:{
+      type:String
     },
     stock: {
       type: Boolean,
@@ -58,10 +68,12 @@ const productSchema = new Schema(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+      required:true,
     },
     color: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Color",
+      required:true,
     },
   },
   {
