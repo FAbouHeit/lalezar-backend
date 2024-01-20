@@ -5,7 +5,6 @@ import fs from "fs";
 // Get All Products
 export const getAllProducts = async (req, res) => {
   try {
-
     const offset = req.offset || 0;
     const limit = req.limit || 10;
 
@@ -39,27 +38,38 @@ export const getProductByCategory = async (req, res) => {
   const categoryId = req.body.id;
 
   try {
-
     if (!mongoose.Types.ObjectId.isValid(categoryId)) {
       return res.status(400).json({ error: "Invalid category ID" });
     }
 
-    const products = await Product.find({category : categoryId})
+    const products = await Product.find({ category: categoryId });
 
-    res.status(200).json(products)
-
+    res.status(200).json(products);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error", msg: error });
   }
 };
 
-
-
 // Create a product
 export const createProduct = async (req, res) => {
-  const { name , name_AR , description , description_AR , price, stock, note , note_AR , display, color, category } =
-    req.body;
+  const {
+    name,
+    name_AR,
+    description,
+    description_AR,
+    price,
+    quantity,
+    ingredients,
+    ingredients_AR,
+    stock,
+    note,
+    note_AR,
+    display,
+    slug,
+    color,
+    category,
+  } = req.body;
 
   if (!req.file) {
     return res.status(400).json({ error: "Please upload an image" });
@@ -69,14 +79,18 @@ export const createProduct = async (req, res) => {
   try {
     const newProduct = new Product({
       name,
-      name_AR ,
+      name_AR,
       description,
-      description_AR ,
+      description_AR,
       price,
+      quantity,
+      ingredients,
+      ingredients_AR,
       stock,
       note,
-      note_AR ,
+      note_AR,
       display,
+      slug,
       color,
       category,
       image,
@@ -109,14 +123,18 @@ export const updateProduct = async (req, res) => {
   try {
     const updatedData = {
       name: req.body.name,
-      name_AR : req.body.name_AR,
+      name_AR: req.body.name_AR,
       description: req.body.description,
-      description_AR : req.body.description_AR,
+      description_AR: req.body.description_AR,
       price: req.body.price,
+      quantity:req.body.quantity,
+      ingredients:req.body.ingredients,
+      ingredients_AR:req.body.ingredients_AR,
       stock: req.body.stock,
       note: req.body.note,
-      note_AR : req.body.note_AR,
+      note_AR: req.body.note_AR,
       display: req.body.display,
+      slug:req.body.slug,
       category: req.body.category,
       color: req.body.color,
     };

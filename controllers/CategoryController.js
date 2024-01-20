@@ -14,11 +14,11 @@ export const getAllCategories = async (req, res) => {
 
 // Create a new category
 export const createCategory = async (req, res) => {
-  const { name } = req.body;
+  const { name , name_AR } = req.body;
 
   try {
     const newCategory = await Category.create({
-      name,
+      name,name_AR
     });
 
     res.status(200).json(newCategory);
@@ -31,7 +31,7 @@ export const createCategory = async (req, res) => {
 // Update a category
 export const updateCategory = async (req, res) => {
   const id = req.body.id;
-  const { name } = req.body;
+  const { name , name_AR } = req.body;
 
   try {
     if (!mongoose.isValidObjectId(id)) {
@@ -46,6 +46,7 @@ export const updateCategory = async (req, res) => {
 
     const updatedCategoryData = {
       name: name,
+      name_AR: name_AR
     };
 
     const updatedCategory = await Category.findByIdAndUpdate(
