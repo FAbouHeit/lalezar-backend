@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connect from './config/Config.js';
 import userRouter from "./routes/UserRoutes.js";
+import blogRouter from "./routes/BlogRoutes.js";
+import commentRouter from "./routes/CommentRoutes.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 6666;
@@ -18,7 +20,9 @@ const corsOption = {
 }
 
 app.use(cors(corsOption));
-app.use('/user', userRouter)
+app.use('/user', userRouter);
+app.use('/blog', blogRouter);
+app.use('/comment', commentRouter);
 
 app.listen(PORT, ()=>{
     connect();
