@@ -8,6 +8,7 @@ import {
   loggedInUser,
   logOut,
 } from "../controllers/UserController.js";
+import { google } from "../controllers/OAuth.js";
 import express from "express";
 import upload from "../middleware/Multer.js";
 import { authenticate } from "../middleware/Auth.js";
@@ -22,5 +23,6 @@ userRouter.delete("/", deleteUser);
 userRouter.post("/login", logIn);
 userRouter.post("logout", logOut);
 userRouter.get("/logged-in-user", authenticate, loggedInUser);
+userRouter.get("/google", google, loggedInUser);
 
 export default userRouter;
