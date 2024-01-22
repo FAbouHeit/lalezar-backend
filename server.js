@@ -10,6 +10,8 @@ import rateRouter from "./routes/RatesRoutes.js";
 import clientRouter from "./routes/ClientRoutes.js";
 import orderRouter from "./routes/OrderRoutes.js";
 
+import blogRouter from "./routes/BlogRoutes.js";
+import commentRouter from "./routes/CommentRoutes.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 6666;
@@ -32,6 +34,8 @@ app.use('/products',productRouter)
 app.use('/rate',rateRouter)
 app.use('/client',clientRouter)
 app.use('/order', orderRouter)
+app.use('/blog', blogRouter);
+app.use('/comment', commentRouter);
 
 app.listen(PORT, ()=>{
     connect();
