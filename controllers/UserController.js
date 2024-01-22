@@ -1,7 +1,6 @@
 import User from "../models/UserModel.js";
 import bcrypt from "bcrypt";
 import fs from "fs";
-import path from "path";
 import { generateToken } from "../utils/Jwt.js";
 import mongoose from "mongoose";
 

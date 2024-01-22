@@ -6,6 +6,10 @@ const categorySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    name_AR:{
+      type:String,
+      required:true
+    }
   },
   {
     timestamps: true,
