@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
 import Blog from "../models/BlogModel.js";
 import fs from "fs";
-import deleteCommentUtil from '../utils/deleteCommentUtil.js'
+import deleteCommentUtil from '../utils/deleteCommentUtil.js';
+import {marked} from 'marked';
+import slugify from 'slugify';
 
 //add pagination
 //slugs
@@ -49,15 +51,24 @@ export const addBlog = async (req, res) => {
     }
 
     try{
+
+        const newSlug = slugify(title_en, {
+            replacement: '-',  // replace spaces with replacement character, defaults to `-`
+            remove: undefined, // remove characters that match regex, defaults to `undefined`
+            lower: true,      // convert to lower case, defaults to `false`
+            trim: true         // trim leading and trailing replacement chars, defaults to `true`
+          })
+          
         const newBlog = await Blog.create({
-            title_en,
-            title_ar,
-            description_en,
-            description_ar,
+            title_en: title_en,
+            title_ar: title_ar,
+            description_en: marked(description_en),
+            description_ar: marked(description_ar),
             images: imagePathArray,
             video,
             likes: 0,
             comments: commentArray,
+            slug: newSlug,
           });
         await newBlog.save();
 
@@ -97,21 +108,26 @@ export const getAllBlogs = async (req, res) => {
 
 export const getOneBlog = async (req, res) => {
     const id = req.body.id;
+    const slug = req.body.slug
 
     try {
-        if (!mongoose.isValidObjectId(id)) {
+        if (id && !mongoose.isValidObjectId(id)) {
             
             return res.status(400).json({ 
                 message: "Error! Invalid blog id" 
             });
         }
 
-        const blog = await Blog.findById(id);
+        let blog = await Blog.findById(id);
 
         if (!blog) {
-            return res.status(404).json({ 
-                message: "Error! Blog not found..." 
-            });
+            blog = await Blog.findOne({slug})
+            
+            if(!blog){
+                return res.status(404).json({ 
+                    message: "Error! Blog not found..." 
+                });
+            }
         }
 
         return res.status(200).json(blog);
