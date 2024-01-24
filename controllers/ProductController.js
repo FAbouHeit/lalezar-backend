@@ -18,19 +18,25 @@ export const getAllProducts = async (req, res) => {
 
 // Get a single Product
 export const getProduct = async (req, res) => {
-  const id = req.body.id;
+  const  slug  = req.params.slug;
+  // console.log(slug)
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "No such book" });
+  // if (!mongoose.Types.ObjectId.isValid(id)) {
+  //   return res.status(404).json({ error: "No such product" });
+  // }
+
+  try {
+    const product = await Product.findOne({slug});
+
+    if (!product) {
+      return res.status(404).json({ error: "No such a product" });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-
-  const product = await Product.findById(id);
-
-  if (!product) {
-    return res.status(404).json({ error: "No such a product" });
-  }
-
-  res.status(200).json(product);
 };
 
 // Get Products by category
@@ -127,14 +133,14 @@ export const updateProduct = async (req, res) => {
       description: req.body.description,
       description_AR: req.body.description_AR,
       price: req.body.price,
-      quantity:req.body.quantity,
-      ingredients:req.body.ingredients,
-      ingredients_AR:req.body.ingredients_AR,
+      quantity: req.body.quantity,
+      ingredients: req.body.ingredients,
+      ingredients_AR: req.body.ingredients_AR,
       stock: req.body.stock,
       note: req.body.note,
       note_AR: req.body.note_AR,
       display: req.body.display,
-      slug:req.body.slug,
+      slug: req.body.slug,
       category: req.body.category,
       color: req.body.color,
     };
