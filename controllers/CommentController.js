@@ -94,6 +94,36 @@ export const getOneComment = async (req, res) => {
     }
 }
 
+export const getManyComments = async (req, res) => {
+    const allComments = req.body.array;
+
+    if (!allComments) {
+        return res.status(400).json({
+            message: "Error! Comments not provided."
+        });
+    }
+
+    try {
+        const returnedArray = [];
+
+        for (let i = 0; i < allComments.length; i++) {
+            const commentId = allComments[i]; // Assuming each item in allComments is a comment ID
+            const comment = await Comment.findById(commentId);
+
+            if (comment) {
+                returnedArray.push(comment);
+            }
+        }
+
+        return res.status(200).json(returnedArray);
+    } catch (error) {
+        return res.status(404).json({
+            message: "Error! Comment not found!",
+            error: error.message,
+        });
+    }
+};
+
 export const updateComment = async (req, res) => {
     const {description, id} = req.body;
 

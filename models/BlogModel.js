@@ -10,7 +10,6 @@ const blogSchema = new mongoose.Schema(
     title_ar: {
       type: String,
       required: true,
-      unique:true,
     },
     description_en: {
       type: String,
@@ -31,6 +30,10 @@ const blogSchema = new mongoose.Schema(
     likes:{
       type: Number,
       required: false,
+    },
+    slug:{
+      type: String,
+      required: true,
     },
     comments:[{
       type: mongoose.Schema.Types.ObjectId,
