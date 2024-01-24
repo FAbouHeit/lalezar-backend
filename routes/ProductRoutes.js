@@ -13,7 +13,7 @@ import { paginate } from "../middleware/Pagination.js";
 const productRouter = express.Router();
 
 productRouter.get("/", paginate , getAllProducts);
-productRouter.get("/product", getProduct);
+productRouter.get("/product/:slug", getProduct);
 productRouter.get("/byCategory" , getProductByCategory)
 productRouter.post("/create", upload.single("image"), createProduct);
 productRouter.patch("/update", upload.single("image"), updateProduct);
