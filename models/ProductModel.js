@@ -34,7 +34,7 @@ const productSchema = new Schema(
       },
       required: true,
     },
-    quantity:{
+    weight:{
       type:Number,
       required:true
     },
