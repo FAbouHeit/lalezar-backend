@@ -1,5 +1,7 @@
 import {
   getAllProducts,
+  getProductByName,
+  getAllProductsWithPaginate,
   createProduct,
   getProduct,
   updateProduct,
@@ -13,13 +15,15 @@ import { paginate } from "../middleware/Pagination.js";
 
 const productRouter = express.Router();
 
-productRouter.get("/", paginate , getAllProducts);
+productRouter.get('/paginate',paginate, getAllProductsWithPaginate);
+productRouter.get("/", getAllProducts);
 productRouter.get('/dash' , getProductsDash)
 productRouter.get("/product/:slug", getProduct);
-productRouter.get("/byCategory" , getProductByCategory)
+productRouter.get("/byCategory" ,paginate , getProductByCategory)
 productRouter.post("/create", upload.single("image"), createProduct);
 productRouter.patch("/update", upload.single("image"), updateProduct);
 productRouter.delete('/delete' , upload.single('image') , deleteProduct)
+productRouter.get("/searchByName/:name", getProductByName);
 
 
 export default productRouter;
