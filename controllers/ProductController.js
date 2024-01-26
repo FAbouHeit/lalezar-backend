@@ -16,9 +16,21 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
+export const getProductsDash = async (req, res) => {
+  try {
+    const products = await Product.find()
+      .populate("category", "name")
+      .populate("color", "hex name");
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // Get a single Product
 export const getProduct = async (req, res) => {
-  const  slug  = req.params.slug;
+  const slug = req.params.slug;
   // console.log(slug)
 
   // if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -26,7 +38,7 @@ export const getProduct = async (req, res) => {
   // }
 
   try {
-    const product = await Product.findOne({slug});
+    const product = await Product.findOne({ slug });
 
     if (!product) {
       return res.status(404).json({ error: "No such a product" });

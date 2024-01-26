@@ -14,11 +14,12 @@ export const getAllColors = async (req, res) => {
 
 // Create a new color
 export const createColor = async (req, res) => {
-  const { hex } = req.body;
+  const { hex , name } = req.body;
 
   try {
     const newColor = await Color.create({
       hex,
+      name
     });
 
     res.status(200).json(newColor);
@@ -31,7 +32,7 @@ export const createColor = async (req, res) => {
 // Update a color
 export const updateColor = async (req, res) => {
   const id = req.body.id;
-  const { hex } = req.body;
+  const { hex , name} = req.body;
 
   try {
     if (!mongoose.isValidObjectId(id)) {
@@ -46,6 +47,7 @@ export const updateColor = async (req, res) => {
 
     const updatedColorData = {
       hex : hex,
+      name: name
     };
 
     const updatedColor = await Color.findByIdAndUpdate(
