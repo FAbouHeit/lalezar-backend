@@ -3,6 +3,7 @@ import {
   getProductByName,
   getAllProductsWithPaginate,
   createProduct,
+  // getProductsSearchAndFilter,
   getProduct,
   updateProduct,
   deleteProduct,
@@ -17,6 +18,7 @@ const productRouter = express.Router();
 
 productRouter.get('/paginate',paginate, getAllProductsWithPaginate);
 productRouter.get("/", getAllProducts);
+// productRouter.get('/search',getProductsSearchAndFilter)
 productRouter.get('/dash' , getProductsDash)
 productRouter.get("/product/:slug", getProduct);
 productRouter.get("/byCategory" ,paginate , getProductByCategory)

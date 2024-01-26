@@ -67,6 +67,36 @@ export const getProductsDash = async (req, res) => {
   }
 };
 
+// Get Products based on the serach and filter categories
+
+// export const getProductsSearchAndFilter = async (req, res) => {
+//   try {
+//     const { query, categories } = req.query;
+//     console.log(req.query);
+
+//     const searchQuery = query ? { $text: { $search: query } } : {};
+//     const categoryFilter = categories
+//       ? {
+//           category: {
+//             $in: categories
+//               .split(",")
+//               .map((categoryId) => Types.ObjectId(categoryId)),
+//           },
+//         }
+//       : {};
+
+//     const products = await Product.find({
+//       ...searchQuery,
+//       ...categoryFilter,
+//     }).populate("category", "name");
+
+//     res.json(products);
+//   } catch (error) {
+//     console.error("Error fetching products:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 // Get a single Product
 export const getProduct = async (req, res) => {
   const slug = req.params.slug;
