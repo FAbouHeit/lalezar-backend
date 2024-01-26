@@ -9,6 +9,7 @@ import productRouter from "./routes/ProductRoutes.js";
 import rateRouter from "./routes/RatesRoutes.js";
 import clientRouter from "./routes/ClientRoutes.js";
 import orderRouter from "./routes/OrderRoutes.js";
+import cookieParser from "cookie-parser";
 
 import blogRouter from "./routes/BlogRoutes.js";
 import commentRouter from "./routes/CommentRoutes.js";
@@ -26,6 +27,7 @@ const corsOption = {
     optionsSuccessStatus: 200,
 }
 
+app.use(cookieParser());
 app.use(cors(corsOption));
 app.use('/user', userRouter)
 app.use('/categories',categoryRouter)

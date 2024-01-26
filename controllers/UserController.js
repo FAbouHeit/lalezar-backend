@@ -62,6 +62,7 @@ export const addUser = async (req, res) => {
   }
 };
 
+
 // Controller for editing a user
 export const editUser = async (req, res) => {
   const id = req.body.id;
@@ -240,27 +241,27 @@ export const SignUp = async (req, res) => {
       !password ||
       !phoneNumber
     ) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
+      // const imagePath = `public/images/${req.file.filename}`;
+      // fs.unlinkSync(imagePath);
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
+      // const imagePath = `public/images/${req.file.filename}`;
+      // fs.unlinkSync(imagePath);
       return res.status(400).json({ error: "Email already exists" });
     }
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    if (!req.file) {
-      return res.status(400).json({ error: "Upload an image" });
-    }
+    // if (!req.file) {
+    //   return res.status(400).json({ error: "Upload an image" });
+    // }
 
-    const image = req.file.filename;
+    // const image = req.file.filename;
 
     const newUser = await User.create({
       firstName,
@@ -268,14 +269,14 @@ export const SignUp = async (req, res) => {
       email,
       password: hashedPassword,
       role:"Admin",
-      image,
+      // image,
       phoneNumber,
     });
 
-    if (!newUser) {
-      const imagePath = `public/images/${req.file.filename}`;
-      fs.unlinkSync(imagePath);
-    }
+    // if (!newUser) {
+    //   const imagePath = `public/images/${req.file.filename}`;
+    //   fs.unlinkSync(imagePath);
+    // }
 
     const token = generateToken(newUser);
     res.cookie("token", token, {
@@ -286,10 +287,10 @@ export const SignUp = async (req, res) => {
 
     res.status(200).json(newUser);
   } catch (error) {
-    const imagePath = `public/images/${req.file.filename}`;
-    fs.unlinkSync(imagePath);
+    // const imagePath = `public/images/${req.file.filename}`;
+    // fs.unlinkSync(imagePath);
     console.error(error);
-    res.status(500).json({ err: "Internal Server Error", msg: error });
+    return res.status(500).json({ err: "Internal Server Error", msg: error });
   }
 };
 
