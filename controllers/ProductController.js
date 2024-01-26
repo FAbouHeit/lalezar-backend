@@ -5,10 +5,49 @@ import fs from "fs";
 // Get All Products
 export const getAllProducts = async (req, res) => {
   try {
+    const products = await Product.find()
+      .populate("category", "name")
+      .populate("color", "hex name");
+    return res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Get Product by name
+
+export const getProductByName = async (req, res) => {
+  const name = req.params.name;
+
+  try {
+    const product = await Product.findOne({ name })
+      .populate("category", "name")
+      .populate("color", "hex name");
+
+    if (!product) {
+      return res.status(404).json({ error: "No such a product" });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// Get All Products With Paginate
+export const getAllProductsWithPaginate = async (req, res) => {
+  try {
     const offset = req.offset || 0;
     const limit = req.limit || 10;
 
-    const products = await Product.find().limit(limit).skip(offset).exec();
+    const products = await Product.find()
+      .populate("category", "name")
+      .populate("color", "hex name")
+      .limit(limit)
+      .skip(offset)
+      .exec();
     return res.status(200).json(products);
   } catch (error) {
     console.error(error);
@@ -31,14 +70,11 @@ export const getProductsDash = async (req, res) => {
 // Get a single Product
 export const getProduct = async (req, res) => {
   const slug = req.params.slug;
-  // console.log(slug)
-
-  // if (!mongoose.Types.ObjectId.isValid(id)) {
-  //   return res.status(404).json({ error: "No such product" });
-  // }
 
   try {
-    const product = await Product.findOne({ slug });
+    const product = await Product.findOne({ slug })
+      .populate("category", "name")
+      .populate("color", "hex name");
 
     if (!product) {
       return res.status(404).json({ error: "No such a product" });
