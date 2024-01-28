@@ -194,7 +194,7 @@ export const createProduct = async (req, res) => {
 // update a product
 
 export const updateProduct = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({
