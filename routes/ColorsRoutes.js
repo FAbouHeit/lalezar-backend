@@ -5,7 +5,7 @@ const colorRouter = express.Router();
 
 colorRouter.get("/", getAllColors);
 colorRouter.post("/create", createColor);
-colorRouter.patch("/update" , updateColor)
-colorRouter.delete('/delete' , deleteColor)
+colorRouter.patch("/update/:id" , updateColor)
+colorRouter.delete('/delete/:id' , deleteColor)
 
 export default colorRouter;

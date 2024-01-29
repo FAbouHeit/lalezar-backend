@@ -31,7 +31,7 @@ export const createColor = async (req, res) => {
 
 // Update a color
 export const updateColor = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
   const { hex , name} = req.body;
 
   try {
@@ -67,7 +67,7 @@ export const updateColor = async (req, res) => {
 
 // Delete a color
 export const deleteColor = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
 
   try {
     if (!mongoose.isValidObjectId(id)) {

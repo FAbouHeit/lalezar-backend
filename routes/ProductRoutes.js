@@ -24,7 +24,7 @@ productRouter.get("/product/:slug", getProduct);
 productRouter.get("/byCategory" ,paginate , getProductByCategory)
 productRouter.post("/create", upload.single("image"), createProduct);
 productRouter.patch("/update/:id", upload.single("image"), updateProduct);
-productRouter.delete('/delete' , upload.single('image') , deleteProduct)
+productRouter.delete('/delete/:id' , upload.single('image') , deleteProduct)
 productRouter.get("/searchByName/:name", getProductByName);
 
 

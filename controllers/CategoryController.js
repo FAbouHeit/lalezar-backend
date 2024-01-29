@@ -30,7 +30,7 @@ export const createCategory = async (req, res) => {
 
 // Update a category
 export const updateCategory = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
   const { name , name_AR } = req.body;
 
   try {
@@ -66,7 +66,7 @@ export const updateCategory = async (req, res) => {
 
 // Delete a category
 export const deleteCategory = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
 
   try {
     if (!mongoose.isValidObjectId(id)) {

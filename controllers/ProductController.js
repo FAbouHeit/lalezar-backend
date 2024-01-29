@@ -222,7 +222,6 @@ export const updateProduct = async (req, res) => {
       category: req.body.category,
       color: req.body.color,
     };
-
     const oldImagePath = `public/images/${oldProduct.image}`;
 
     if (req.file) {
@@ -255,7 +254,7 @@ export const updateProduct = async (req, res) => {
 
 // Delete a Product
 export const deleteProduct = async (req, res) => {
-  const id = req.body.id;
+  const id = req.params.id;
 
   try {
     if (!mongoose.isValidObjectId(id)) {
