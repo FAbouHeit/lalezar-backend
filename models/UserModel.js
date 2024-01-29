@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlengthL: 8,
     },
-    phoneNumber: { type: Number, required: true },
+    phoneNumber: { type: Number },
     image: { type: String },
   },
   {

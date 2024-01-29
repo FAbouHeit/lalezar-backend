@@ -32,10 +32,10 @@ export const google = async (req, res, next) => {
         email: email,
         password: hashedPassword,
         image: photo,
-        role: "User",
+        role: "Customer",
       });
 
-      const token = generateToken(newUser);
+      const token = generateToken({user : newUser});
       const { password, ...rest } = newUser.toObject();
       return res
         .cookie("token", token, {

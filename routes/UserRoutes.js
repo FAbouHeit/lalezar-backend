@@ -23,9 +23,9 @@ userRouter.post("/add",upload.single("image"), addUser);
 userRouter.patch("/", upload.single("image"), editUser);
 userRouter.delete("/", deleteUser);
 userRouter.post("/login", logIn);
-userRouter.post("logout", logOut);
+userRouter.post("/logout", logOut);
 userRouter.get("/logged-in-user", authenticate, loggedInUser);
-userRouter.get("/google", google, loggedInUser);
+userRouter.post("/google", google, loggedInUser);
 
 export default userRouter;
 

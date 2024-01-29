@@ -15,6 +15,22 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
+// get last 4 products
+export const getLastFourProducts = async (req, res) => {
+  try {
+    const products = await Product.find()
+      .sort({ createdAt: -1 }) 
+      .limit(4) 
+      .populate("category", "name")
+      .populate("color", "hex name");
+
+    return res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 // Get Product by name
 
 export const getProductByName = async (req, res) => {

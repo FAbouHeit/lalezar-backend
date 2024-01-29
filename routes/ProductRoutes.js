@@ -8,7 +8,8 @@ import {
   updateProduct,
   deleteProduct,
   getProductByCategory,
-  getProductsDash
+  getProductsDash,
+  getLastFourProducts
 } from "../controllers/ProductController.js";
 import express from "express";
 import upload from "../middleware/Multer.js";
@@ -18,6 +19,7 @@ const productRouter = express.Router();
 
 productRouter.get('/paginate',paginate, getAllProductsWithPaginate);
 productRouter.get("/", getAllProducts);
+productRouter.get("/last4", getLastFourProducts);
 // productRouter.get('/search',getProductsSearchAndFilter)
 productRouter.get('/dash' , getProductsDash)
 productRouter.get("/product/:slug", getProduct);
