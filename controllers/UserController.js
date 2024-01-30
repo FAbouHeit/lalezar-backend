@@ -268,7 +268,7 @@ export const SignUp = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
-      role:"Admin",
+      role:"Customer",
       // image,
       phoneNumber,
     });

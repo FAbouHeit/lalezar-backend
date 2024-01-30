@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlengthL: 8,
+      minlength: 8,
     },
     phoneNumber: { type: Number },
     image: { type: String },
