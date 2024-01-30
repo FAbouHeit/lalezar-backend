@@ -142,7 +142,15 @@ export const getOneBlog = async (req, res) => {
 }
 
 export const updateBlog = async (req, res) => {////////////////////////////////
-    const {id, title_en, title_ar, description_ar, description_en} = req.body;
+    const { title_en, title_ar, description_ar, description_en, video} = req.body.editedBlog;
+    const id = req.params.id;
+
+    const newSlug = slugify(title_en, {
+        replacement: '-',  // replace spaces with replacement character, defaults to `-`
+        remove: undefined, // remove characters that match regex, defaults to `undefined`
+        lower: true,      // convert to lower case, defaults to `false`
+        trim: true         // trim leading and trailing replacement chars, defaults to `true`
+      })
 
     if(!id){
 
@@ -161,10 +169,12 @@ export const updateBlog = async (req, res) => {////////////////////////////////
         const existingBlog = await Blog.findById(id);
 
         let updatedInfo = {
+            slug: newSlug || existingBlog.slug,
             title_en: title_en || existingBlog.title_en,
             description_en: description_en || existingBlog.description_en,
             title_ar: title_ar || existingBlog.title_ar,
             description_ar: description_ar || existingBlog.description_ar,
+            video: video || existingBlog.video
         }
 
         const updatedBlog = await Blog.findByIdAndUpdate(id, updatedInfo, {
@@ -263,7 +273,7 @@ export const addImage = async (req, res) =>{
 }
 
 export const deleteBlog = async (req, res) => {
-    const id = req.body.id;
+    const id = req.params.id
 
     try {
         if (!mongoose.isValidObjectId(id)) {
@@ -275,8 +285,8 @@ export const deleteBlog = async (req, res) => {
         const blog = await Blog.findById(id);
 
         if (blog && blog.images.length > 0){
-            for( let i=0; i<images.length; i++ ){
-                fs.unlinkSync(images[i]);
+            for( let i=0; i<blog.images.length; i++ ){
+                fs.unlinkSync(blog.images[i]);
             }
         }
 
