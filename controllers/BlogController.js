@@ -245,13 +245,15 @@ export const addImage = async (req, res) =>{
     try{
         const blog = await Blog.findById(id);
 
-        const imagesArray = [...blog.images, image.path];
+        const imagesArray = [...blog.images, image.filename];
 
         await Blog.findByIdAndUpdate(id,{
             $set: {
                 images: imagesArray,
             }
         }, {new: false});
+
+        return res.json('image added')
 
     } catch (error) {
 

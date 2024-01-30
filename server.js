@@ -9,10 +9,11 @@ import productRouter from "./routes/ProductRoutes.js";
 import rateRouter from "./routes/RatesRoutes.js";
 import clientRouter from "./routes/ClientRoutes.js";
 import orderRouter from "./routes/OrderRoutes.js";
+import deliveryRouter from "./routes/DeliveryRoutes.js";
 import cookieParser from "cookie-parser";
-
 import blogRouter from "./routes/BlogRoutes.js";
 import commentRouter from "./routes/CommentRoutes.js";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 6666;
@@ -38,6 +39,7 @@ app.use('/client',clientRouter)
 app.use('/order', orderRouter)
 app.use('/blog', blogRouter);
 app.use('/comment', commentRouter);
+app.use('/delivery', deliveryRouter);
 
 app.listen(PORT, ()=>{
     connect();

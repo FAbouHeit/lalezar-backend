@@ -10,7 +10,7 @@ import { addBlog, addImage, addLike, deleteAll, deleteBlog, getAllBlogs, getOneB
     blogRouter.post('/one', getOneBlog);
     blogRouter.patch('/', updateBlog);
     blogRouter.post('/image/remove', removeImage);
-    blogRouter.post('/image/add', addImage);
+    blogRouter.post('/image/add', upload.single('image') , addImage);
     blogRouter.delete('/', deleteBlog);
     blogRouter.post('/like/add', addLike);
     blogRouter.post('/like/remove', removeLike);

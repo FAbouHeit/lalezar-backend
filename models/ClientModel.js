@@ -7,10 +7,15 @@ const clientSchema = new mongoose.Schema(
       required: true,
       minlength: 3,
     },
+    location: {
+      type: String,
+      required: true,
+      minlength: 5,
+    },
     image: {
       type: String,
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

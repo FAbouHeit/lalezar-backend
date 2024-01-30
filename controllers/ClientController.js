@@ -4,11 +4,16 @@ import Client from "../models/ClientModel.js";
 
 // Controller for adding a new client
 export const addClient = async (req, res) => {
-  const { name } = req.body;
-
+  const { name, location } = req.body;
+  console.log(name);
+  console.log(req.file);
   try {
     if (!name) {
       return res.status(400).json({ error: "Name is required" });
+    }
+
+    if (!location) {
+      return res.status(400).json({ error: "Location is required" });
     }
 
     if (!req.file) {
@@ -17,7 +22,7 @@ export const addClient = async (req, res) => {
 
     const image = req.file.filename;
 
-    const newClient = await Client.create({ name, image });
+    const newClient = await Client.create({ name, image, location });
 
     res.status(200).json(newClient);
   } catch (error) {
@@ -33,7 +38,7 @@ export const addClient = async (req, res) => {
 // Controller for editing a client
 export const editClient = async (req, res) => {
   const id = req.body.id;
-  const { name } = req.body;
+  const { name, location } = req.body;
 
   try {
     if (!mongoose.isValidObjectId(id)) {
@@ -42,6 +47,10 @@ export const editClient = async (req, res) => {
 
     if (!name) {
       return res.status(400).json({ error: "Name is required" });
+    }
+
+    if (!location) {
+      return res.status(400).json({ error: "Location is required" });
     }
 
     const existingClient = await Client.findById(id);
@@ -59,6 +68,7 @@ export const editClient = async (req, res) => {
 
     const updatedClientData = {
       name: name || existingClient.name,
+      location : location || existingClient.location ,
       image: updatedImage,
     };
 

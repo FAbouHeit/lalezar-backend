@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["Initiated", "In Process", "Sent", "Delivered"],
+      enum: ["Initiated", "In Process", "Sent", "Delivered", "Declined"],
       default: "Initiated",
     },
     userId: {
@@ -29,14 +29,14 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    country : {
-      type : String ,
-      required: true
+    country: {
+      type: String,
+      required: true,
     },
     city: {
-      type : String,
-      required : true
-    }
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
