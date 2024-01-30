@@ -16,7 +16,7 @@ import { authenticate } from "../middleware/Auth.js";
 
 const userRouter = express.Router();
 
-userRouter.post("/", upload.single("image"), SignUp);
+userRouter.post("/signup", upload.single("image"), SignUp);
 userRouter.post("/byId", getOneUser);
 userRouter.get("/", getAllUsers);
 userRouter.post("/add",upload.single("image"), addUser);
