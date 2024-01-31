@@ -3,25 +3,30 @@ import User from "../models/UserModel.js";
 import Product from "../models/ProductModel.js";
 
 export const addOrder = async (req, res) => {
-  const { number, status, userId, orderDetails, address, country, city } =
+  const { status, userId, orderDetails, address, country, city , deliveryFee} =
     req.body;
+
   try {
-    if ((!number, !userId, !orderDetails, !address, !country, !city)) {
+    if ((!userId, !orderDetails, !address, !country, !city)) {
       return res.status(400).json({ error: "All fields are required" });
     }
+
+    const allOrders = await Order.find();
+
+    const number = allOrders.length + 1;
 
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    const productIds = orderDetails.map((item) => item.productId);
+    const productIds = orderDetails.map((item) => item.id);
     const products = await Product.find({ _id: { $in: productIds } });
 
     // Calculate the total price for each product
     const updatedProducts = products.map((product) => {
       const orderItem = orderDetails.find(
-        (item) => item.productId.toString() === product._id.toString()
+        (item) => item.id.toString() === product._id.toString()
       );
 
       if (!orderItem) {
@@ -31,11 +36,11 @@ export const addOrder = async (req, res) => {
       return {
         ...product.toObject(),
         quantity: orderItem.quantity,
-        priceAll: orderItem.priceAll,
+        totalPrice: orderItem.totalPrice,
       };
     });
     const totalPrice = updatedProducts.reduce(
-      (total, product) => total + product.priceAll,
+      (total, product) => total + product.totalPrice,
       0
     );
 
@@ -44,7 +49,7 @@ export const addOrder = async (req, res) => {
       status: "Initiated" || status,
       userId: userId,
       orderDetails: updatedProducts,
-      totalPrice: totalPrice,
+      totalPrice: totalPrice + deliveryFee,
       country: country,
       city: city,
       address: address,
@@ -61,7 +66,7 @@ export const addOrder = async (req, res) => {
 // Edit Order
 export const editOrder = async (req, res) => {
   const id = req.body.id;
-  const { number, status, orderDetails, address, country, city } = req.body;
+  const { status, orderDetails, deliveryFee , address, country, city } = req.body;
 
   try {
     if (!id) {
@@ -74,13 +79,13 @@ export const editOrder = async (req, res) => {
     }
 
     if (orderDetails) {
-      const productIds = orderDetails.map((item) => item.productId);
+      const productIds = orderDetails.map((item) => item.id);
       const products = await Product.find({ _id: { $in: productIds } });
 
       // Calculate the total price for each product
       var updatedProducts = products.map((product) => {
         const orderItem = orderDetails.find(
-          (item) => item.productId.toString() === product._id.toString()
+          (item) => item.id.toString() === product._id.toString()
         );
 
         if (!orderItem) {
@@ -90,20 +95,19 @@ export const editOrder = async (req, res) => {
         return {
           ...product.toObject(),
           quantity: orderItem.quantity,
-          priceAll: orderItem.priceAll,
+          totalPrice: orderItem.totalPrice,
         };
       });
 
       var totalPrice = updatedProducts.reduce(
-        (total, product) => total + product.priceAll,
+        (total, product) => total + product.totalPrice,
         0
       );
     }
 
-    existingOrder.number = number || existingOrder.number;
     existingOrder.status = status || existingOrder.status;
     existingOrder.orderDetails = updatedProducts || existingOrder.orderDetails;
-    existingOrder.totalPrice = totalPrice || existingOrder.totalPrice;
+    existingOrder.totalPrice = totalPrice + deliveryFee || existingOrder.totalPrice + deliveryFee;
     existingOrder.address = address || existingOrder.address;
     existingOrder.country = country || existingOrder.country;
     existingOrder.city = city || existingOrder.city;
