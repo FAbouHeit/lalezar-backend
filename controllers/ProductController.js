@@ -7,7 +7,8 @@ export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find()
       .populate("category", "name")
-      .populate("color", "hex name");
+      .populate("color", "hex name")
+      .sort({ createdAt: -1 });
     return res.status(200).json(products);
   } catch (error) {
     console.error(error);
@@ -19,8 +20,8 @@ export const getAllProducts = async (req, res) => {
 export const getLastFourProducts = async (req, res) => {
   try {
     const products = await Product.find()
-      .sort({ createdAt: -1 }) 
-      .limit(4) 
+      .sort({ createdAt: -1 })
+      .limit(4)
       .populate("category", "name")
       .populate("color", "hex name");
 
@@ -75,7 +76,8 @@ export const getProductsDash = async (req, res) => {
   try {
     const products = await Product.find()
       .populate("category", "name")
-      .populate("color", "hex name");
+      .populate("color", "hex name")
+      .sort({ createdAt: -1 });
     res.json(products);
   } catch (error) {
     console.error("Error fetching products:", error);

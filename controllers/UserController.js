@@ -9,13 +9,7 @@ export const addUser = async (req, res) => {
   const { firstName, lastName, email, password, role, phoneNumber } = req.body;
 
   try {
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !password ||
-      !phoneNumber
-    ) {
+    if (!firstName || !lastName || !email || !password || !phoneNumber) {
       const imagePath = `public/images/${req.file.filename}`;
       fs.unlinkSync(imagePath);
       return res.status(400).json({ error: "All fields are required" });
@@ -62,7 +56,6 @@ export const addUser = async (req, res) => {
   }
 };
 
-
 // Controller for editing a user
 export const editUser = async (req, res) => {
   const id = req.body.id;
@@ -81,21 +74,17 @@ export const editUser = async (req, res) => {
       return res.status(400).json({ error: "Invalid user ID" });
     }
 
-    if (!password || !checkPassword) {
-      return res.status(400).json({ error: "Passwrod is required" });
-    }
-
     const existingUser = await User.findById(id);
 
-    const arePasswordSame = await bcrypt.compare(password, checkPassword);
+    if (password) {
+      const arePasswordSame = await bcrypt.compare(
+        checkPassword,
+        existingUser.password
+      );
 
-    const isValidPassword = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
-
-    if (!isValidPassword || !arePasswordSame) {
-      return res.status(401).json({ message: "Invalid password" });
+      if (!arePasswordSame) {
+        return res.status(401).json({ message: "Invalid password" });
+      }
     }
 
     if (!existingUser) {
@@ -104,22 +93,35 @@ export const editUser = async (req, res) => {
 
     let updatedImage = existingUser.image;
     if (req.file) {
-      const imagePath = `public/images/${existingUser}`;
-      fs.unlinkSync(imagePath);
-      updatedImage = req.file.filename;
+      if (existingUser.image) {
+        const imagePath = `public/images/${updatedImage}`;
+        fs.unlinkSync(imagePath);
+      }
+
+      updatedImage = req.file?.filename;
     }
 
-    const updatedUserData = {
-      firstName: firstName || existingUser.firstName,
-      lastName: lastName || existingUser.lastName,
-      email: email || existingUser.email,
-      password: password
-        ? await bcrypt.hash(password, 10)
-        : existingUser.password,
-      role: role || existingUser.role,
-      image: updatedImage,
-      phoneNumber: phoneNumber || existingUser.phoneNumber,
-    };
+    let updatedUserData = {};
+    if (password) {
+      updatedUserData = {
+        firstName: firstName || existingUser.firstName,
+        lastName: lastName || existingUser.lastName,
+        email: email || existingUser.email,
+        password: await bcrypt.hash(password, 10),
+        role: role || existingUser.role,
+        image: updatedImage,
+        phoneNumber: phoneNumber || existingUser.phoneNumber,
+      };
+    } else {
+      updatedUserData = {
+        firstName: firstName || existingUser.firstName,
+        lastName: lastName || existingUser.lastName,
+        email: email || existingUser.email,
+        role: role || existingUser.role,
+        image: updatedImage,
+        phoneNumber: phoneNumber || existingUser.phoneNumber,
+      };
+    }
 
     const updatedUser = await User.findByIdAndUpdate(id, updatedUserData, {
       new: true,
@@ -128,8 +130,10 @@ export const editUser = async (req, res) => {
     res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
-    const imagePath = `public/images/${req.file.filename}`;
-    fs.unlinkSync(imagePath);
+    if (req.file) {
+      const imagePath = `public/images/${req.file.filename}`;
+      fs.unlinkSync(imagePath);
+    }
     res.status(500).json({ error: "Internal Server Error", msg: error });
   }
 };
@@ -234,13 +238,7 @@ export const SignUp = async (req, res) => {
   const { firstName, lastName, email, password, role, phoneNumber } = req.body;
 
   try {
-    if (
-      !firstName ||
-      !lastName ||
-      !email ||
-      !password ||
-      !phoneNumber
-    ) {
+    if (!firstName || !lastName || !email || !password || !phoneNumber) {
       // const imagePath = `public/images/${req.file.filename}`;
       // fs.unlinkSync(imagePath);
       return res.status(400).json({ error: "All fields are required" });
@@ -268,7 +266,7 @@ export const SignUp = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
-      role:"Customer",
+      role: "Customer",
       // image,
       phoneNumber,
     });
