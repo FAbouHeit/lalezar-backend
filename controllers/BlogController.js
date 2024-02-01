@@ -142,7 +142,7 @@ export const getOneBlog = async (req, res) => {
 }
 
 export const updateBlog = async (req, res) => {////////////////////////////////
-    const { title_en, title_ar, description_ar, description_en, video} = req.body.editedBlog;
+    const { title_en, title_ar, description_ar, description_en, video} = req.body.tempBlog;
     const id = req.params.id;
 
     const newSlug = slugify(title_en, {
