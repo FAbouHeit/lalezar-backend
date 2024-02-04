@@ -4,12 +4,16 @@ import {
   editDelivery,
   deleteDelivery,
   getAllDeliveries,
+  getUniqueCountriesCount
 } from '../controllers/DeliveryController.js';
 
 const deliveryRouter = express.Router();
 
 // Route for adding a new delivery
 deliveryRouter.post('/', addDelivery);
+
+// route for getting country number
+deliveryRouter.get('/country', getUniqueCountriesCount);
 
 // Route for editing a delivery
 deliveryRouter.patch('/', editDelivery);

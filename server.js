@@ -13,6 +13,7 @@ import deliveryRouter from "./routes/DeliveryRoutes.js";
 import cookieParser from "cookie-parser";
 import blogRouter from "./routes/BlogRoutes.js";
 import commentRouter from "./routes/CommentRoutes.js";
+import dashRouter from "./routes/DashboardRoutes.js";
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/order', orderRouter)
 app.use('/blog', blogRouter);
 app.use('/comment', commentRouter);
 app.use('/delivery', deliveryRouter);
+app.use('/dash', dashRouter);
 
 app.listen(PORT, ()=>{
     connect();

@@ -1,11 +1,12 @@
 import express from "express";
 import upload from "../middleware/Multer.js";
 import { authenticate, checkRole } from "../middleware/Auth.js";
-import { addBlog, addImage, addLike, deleteAll, deleteBlog, getAllBlogs, getOneBlog, removeImage, removeLike, updateBlog } from "../controllers/BlogController.js";
+import { addBlog, addImage, addLike, deleteAll, deleteBlog, getAllBlogs, getOneBlog, removeImage, removeLike, updateBlog , getLastTwoBlogs} from "../controllers/BlogController.js";
   
   const blogRouter = express.Router();
 
     blogRouter.get('/', getAllBlogs);
+    blogRouter.get('/lastTwo', getLastTwoBlogs);
     blogRouter.post('/', addBlog);
     blogRouter.post('/one', getOneBlog);
     blogRouter.patch('/:id', updateBlog);

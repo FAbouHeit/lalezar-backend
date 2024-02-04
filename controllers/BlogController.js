@@ -386,3 +386,20 @@ export const deleteAll = async (req,res) => {
   };
 
 
+  export const getLastTwoBlogs = async (req, res) => {
+
+    try {
+        const blogs = await Blog.find()
+        .sort({ createdAt: -1 })
+        .limit(2)
+        
+        return res.status(200).json(blogs);
+
+      } catch (error) {
+
+        return res.status(500).json({
+             message: "Error! Can't get the blogs",
+             error: error.message, 
+            });
+      }
+}

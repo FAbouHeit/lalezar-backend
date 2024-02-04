@@ -12,6 +12,18 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
+// get category sum
+export const getCategorySum = async (req, res) => {
+  try {
+    const categories = await Category.find();
+    const categoriesLength = categories.length;
+    return res.status(200).json(categoriesLength );
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 // Create a new category
 export const createCategory = async (req, res) => {
   const { name , name_AR } = req.body;

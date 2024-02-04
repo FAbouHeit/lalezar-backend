@@ -108,3 +108,30 @@ export const getAllDeliveries = async (req, res) => {
       .json({ error: "Internal Server Error", msg: error.message });
   }
 };
+
+
+export const getUniqueCountriesCount = async (req, res) => {
+  try {
+    const result = await Delivery.aggregate([
+      {
+        $group: {
+          _id: null,
+          uniqueCountries: { $addToSet: "$country" },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          count: { $size: "$uniqueCountries" },
+        },
+      },
+    ]);
+
+    const count = result.length > 0 ? result[0].count : 0;
+
+    return res.status(200).json(count);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
